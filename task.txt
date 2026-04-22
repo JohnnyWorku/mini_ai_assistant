@@ -1,0 +1,12 @@
+Build a mini AI assistant that uses Neo4j as the backend. The system should accept user prompts in natural, user-friendly language.
+
+It should use LangChain together with Google Gemini to process the input. Based on the user’s prompt, the assistant should generate appropriate Cypher queries to interact with Neo4j.
+
+The system must handle all processing under the hood, including:
+
+Understanding the user’s intent
+Translating it into a Cypher query
+Executing the query on Neo4j
+Converting the result back into a clear, human-friendly response in plain language
+
+You can use any dataset of your choice for the Neo4j database.
