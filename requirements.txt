@@ -5,3 +5,4 @@ langchain-community
 neo4j
 langchain-experimental
 langchain-neo4j
+streamlit
