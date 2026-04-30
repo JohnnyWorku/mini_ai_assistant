@@ -16,10 +16,10 @@ graph = Neo4jGraph(
     # password= os.getenv("LOCAL_NEO4J_PASSWORD"),
     # database=os.getenv("LOCAL_NEO4J_DB")
     
-    url = os.getenv("REMOTE_NEO4J_URI"),
-    username = os.getenv("REMOTE_NEO4J_USERNAME"),
-    password= os.getenv("REMOTE_NEO4J_PASSWORD"),
-    database=os.getenv("REMOTE_NEO4J_DB")
+    url = os.getenv("LOCAL_NEO4J_URI"),
+    username = os.getenv("LOCAL_NEO4J_USERNAME"),
+    password= os.getenv("LOCAL_NEO4J_PASSWORD"),
+    database=os.getenv("LOCAL_NEO4J_DB")
 )
 
 chain = GraphCypherQAChain.from_llm(
