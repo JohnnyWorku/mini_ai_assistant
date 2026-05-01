@@ -114,7 +114,11 @@ def ask_the_graph(question):
         return final_answer
     
     except Exception as e:
-        return f"Error: {str(e)}"
+        return f"""
+            Error: The statement you entered is either not changeable to cypher or it has some flaw. Check it.
+            If you want see the original error: {str(e)}
+        """
+    
 
 # chain = GraphCypherQAChain.from_llm(
 #     llm=llm,
