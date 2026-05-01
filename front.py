@@ -1,5 +1,5 @@
 import streamlit as st
-import back
+from back import ask_the_graph
 
 st.set_page_config(page_title="Neo4j AI Agent", layout="wide")
 st.title("🧠 Neo4j Graph AI Assistant")
@@ -24,7 +24,7 @@ if user_input:
 
     try:
         # run your chain
-        result = back.chain.invoke({"query": user_input})
+        result = ask_the_graph(user_input)
 
         # extract output safely
         answer = result.get("result") if isinstance(result, dict) else str(result)
