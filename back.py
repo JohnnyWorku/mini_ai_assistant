@@ -22,12 +22,106 @@ graph = Neo4jGraph(
     # database=os.getenv("REMOTE_NEO4J_DB")
 )
 
-chain = GraphCypherQAChain.from_llm(
-    llm=llm,
-    graph=graph,
-    verbose=True,
-    allow_dangerous_requests=True
-)
+
+def get_schema():
+    return graph.schema
+
+
+def generate_cypher(question, schema):
+    prompt = f"""
+    You are a Neo4j expert.
+    
+    shcema:
+    {schema}
+    
+    Convert the question into Cypher query.
+    Only return the query.
+    No markdown(```).
+    No any other elaboration just the cypher only.
+    
+    Question:
+    {question}
+    """
+    
+    response = llm.invoke(prompt)
+    content = response.content
+    
+    if isinstance(content, list):
+        content = content[0].get("text", "")
+        
+    return content
+
+
+def validate_cypher(cypher: str):
+    forbidden = ["DELETE", "CREATE", "MERGE", "DROP"]
+    
+    for word in forbidden:
+        if word in cypher.upper():
+            raise ValueError("Dangerous query detected.")
+        
+    return cypher
+
+
+def run_query(cypher):
+    return graph.query(cypher)
+
+
+def format_results(results):
+    if not results:
+        return "No such data found."
+    
+    formatted = []
+
+    for row in results:
+        formatted.append(", ".join(str(value) for value in row.values()))
+        
+    return "\n".join(formatted)
+
+
+def generate_humanized_answer(question, context):
+    prompt = f"""
+    Answer the question using the data below.
+    
+    Question:
+    {question}
+    
+    Data:
+    {context}
+    
+    Answer:
+    """
+    
+    response = llm.invoke(prompt)
+    return response.content
+    
+    
+def ask_the_graph(question):
+    try:
+        schema = get_schema()
+        
+        cypher = generate_cypher(question, schema)
+        print("\nGenerated cypher:\n", cypher)
+        
+        cypher = validate_cypher(cypher)
+        
+        results = run_query(cypher)
+        print("\nRaw results:\n", results)
+        
+        context = format_results(results)
+        
+        final_answer = generate_humanized_answer(question, context)
+        
+        return final_answer
+    
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+# chain = GraphCypherQAChain.from_llm(
+#     llm=llm,
+#     graph=graph,
+#     verbose=True,
+#     allow_dangerous_requests=True
+# )
 
 
 # def main_agent():
