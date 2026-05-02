@@ -108,6 +108,7 @@ def ask_the_graph(question):
         print("\nRaw results:\n", results)
         
         context = format_results(results)
+        print("\nContext:\n", context)
         
         final_answer = generate_humanized_answer(question, context)
         
