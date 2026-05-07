@@ -1,13 +1,19 @@
 import os
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_neo4j import Neo4jGraph, GraphCypherQAChain
+# from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
+from langchain_neo4j import Neo4jGraph
 
 # Load environment variables from .env file
 load_dotenv()
 
 # Intialize the Google Generative AI model
-llm = ChatGoogleGenerativeAI(model=os.getenv("GROQ_MODEL"), google_api_key=os.getenv("GROQ_API_KEY"))
+# llm = ChatGoogleGenerativeAI(model=os.getenv("GROQ_MODEL"), google_api_key=os.getenv("GROQ_API_KEY"))
+llm = ChatGroq(
+    model=os.getenv("GROQ_MODEL", "llama-3.1-8b-instant"),
+    api_key=os.getenv("GROQ_API_KEY")
+)
+
 
 # Connecting with neo4j
 graph = Neo4jGraph(
@@ -44,10 +50,7 @@ def generate_cypher(question, schema):
     """
     
     response = llm.invoke(prompt)
-    content = response.content
-    
-    if isinstance(content, list):
-        content = content[0].get("text", "")
+    content = response.content.strip()
         
     return content
 
