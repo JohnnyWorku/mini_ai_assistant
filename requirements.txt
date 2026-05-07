@@ -6,3 +6,4 @@ neo4j
 langchain-experimental
 langchain-neo4j
 streamlit
+langchain_groq
