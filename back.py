@@ -7,7 +7,7 @@ from langchain_neo4j import Neo4jGraph, GraphCypherQAChain
 load_dotenv()
 
 # Intialize the Google Generative AI model
-llm = ChatGoogleGenerativeAI(model=os.getenv("MODEL"), google_api_key=os.getenv("GOOGLE_API_KEY"))
+llm = ChatGoogleGenerativeAI(model=os.getenv("GROQ_MODEL"), google_api_key=os.getenv("GROQ_API_KEY"))
 
 # Connecting with neo4j
 graph = Neo4jGraph(
