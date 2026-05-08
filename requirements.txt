@@ -7,3 +7,4 @@ langchain-experimental
 langchain-neo4j
 streamlit
 langchain_groq
+pydantic
