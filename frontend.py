@@ -1,5 +1,5 @@
 import streamlit as st
-from back import ask_the_graph
+from backend import ask_the_graph
 
 st.set_page_config(page_title="Neo4j AI Agent", layout="wide")
 st.title("🧠 Neo4j Graph AI Assistant")
